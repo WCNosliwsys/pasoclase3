@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,6 +43,9 @@ public class MainActivity extends FragmentActivity
                 mapa.getCameraPosition().target));
     }
     @Override public void onMapClick(LatLng puntoPulsado) {
+        Double latitud=puntoPulsado.latitude;
+        Double longitud=puntoPulsado.longitude;
+        Toast.makeText(this, "latiud: "+ latitud.toString()+" longitud: "+ puntoPulsado.longitude, Toast.LENGTH_SHORT).show();
         mapa.addMarker(new MarkerOptions().position(puntoPulsado)
                 .icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
