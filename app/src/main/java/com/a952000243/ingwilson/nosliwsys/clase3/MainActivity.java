@@ -1,9 +1,12 @@
 package com.a952000243.ingwilson.nosliwsys.clase3;
 
+import android.content.pm.PackageManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +37,16 @@ public class MainActivity extends FragmentActivity
         mapa.addMarker(new MarkerOptions().position(ubicacion).title("Marcador UNJBG"));
         mapa.moveCamera(CameraUpdateFactory.newLatLng(ubicacion));
         mapa.setOnMapClickListener(this);
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            mapa.setMyLocationEnabled(true);
+            mapa.getUiSettings().setZoomControlsEnabled(false);
+            mapa.getUiSettings().setCompassEnabled(true);
+        } else {
+            Button btnMiPos=(Button) findViewById(R.id.btnmiubi);
+            btnMiPos.setEnabled(false);
+        }
     }
     public void moveCamera(View view) {
         mapa.moveCamera(CameraUpdateFactory.newLatLng(ubicacion));
@@ -49,6 +62,13 @@ public class MainActivity extends FragmentActivity
         mapa.addMarker(new MarkerOptions().position(puntoPulsado)
                 .icon(BitmapDescriptorFactory
                         .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
+    }
+
+    public void ubicacion(View view) {
+        if (mapa.getMyLocation() != null)
+            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    new LatLng(mapa.getMyLocation().getLatitude(),
+                            mapa.getMyLocation().getLongitude()), 15));
     }
 
 }
